@@ -1,4 +1,5 @@
 const mongoose = require ('mongoose');
+
 mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true});
 
 const db = mongoose.connection;
@@ -12,10 +13,7 @@ name: String
 
 });
 
-const silence = new Kitten ({ name: 'Silence'});
-console.log(silence.name);
-
-kittySchema.methods = function (){
+kittySchema.methods.speak = function (){
     const greeting = this.name
     ? "Meow name is" + this.name
     :"I don't have a name";
@@ -23,6 +21,9 @@ kittySchema.methods = function (){
 }
 
 const Kitten = mongoose.model('Kitten', kittySchema);
+
+const silence = new Kitten ({ name: 'Silence'});
+console.log(silence.name);
 
 const fluffy = new Kitten ({ name: 'fluffy'});
 fluffy.speak();
@@ -37,4 +38,3 @@ Kitten.find(function(err, kittens){
     console.log(kittens);
 })
 
-Kitten.find({ name: /^fluff/ }, callback);
