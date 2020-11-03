@@ -12,7 +12,6 @@ exports.createGetInfo = (name, text) => {
         name: name,
         text: text
     });
-
     return getInfo;
 }
 

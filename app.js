@@ -8,43 +8,36 @@ const port = 3000
 const clientDir = __dirname + "\\client\\"
 
 app.use(express.json())
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 app.use (express.static(clientDir))
+app.set('view engine', 'ejs')
+
 
 app.get('/', (req, res) => {
-    res.render(clientDir + "index.ejs")
+    res.render("pages/index.ejs")
 })
 
 app.get('/message', async (req, res) => {
-    var getInfos = await getInfoModel.createGetInfos()
-    res.render (clientDir +"message.ejs", {getInfo: getInfos})
+    let message = await getInfoModule.getAllInfo();
+    res.render("pages/message.ejs", {getInfo: message})
 })
 
-app.set('view engine', 'ejs')
 
-app.get('/bajs', (req, res) => {
-    res.sendFile(clientDir + "style.css")
-})
 
-app.get('/theBaddest', (req, res) => {
-    res.sendFile(clientDir + "Kda.jpg")
-})
 
-app.post('/', (req, res) => {
+/*app.post('/', (req, res) => {
      Module.storePerson(infoModel.storeInfo(req.body.name, req.body.email, req.body.age))
 
-    res.redirect('/')
- })
+    res.render('/')
+ })*/
 
- app.post ('./message', async (req, res) => {
-     var getInfo = getInfoModel.createGetInfos(req.body.email, req.body.text);
+ app.post ('/message', async (req, res) => {
+     var getInfo = getInfoModule.createGetInfo(req.body.email, req.body.message);
     Module.storePerson(getInfo);
 
-    var getInfos = await getInfoModel.createGetInfos()
+    var getInfos = await getInfoModule.getAllInfo();
 
-     res.render(clientDir + "message.ejs", {getInfo: getInfos});
-
-     
+     res.render('pages/message.ejs', {getInfo: getInfos});
  })
 
 

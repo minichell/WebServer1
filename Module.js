@@ -9,7 +9,6 @@ db.on('open', function() {
 
 exports.storePerson = (input) => {
     input.save(() => {
-        console.log("Hello")
     });
 };
 
